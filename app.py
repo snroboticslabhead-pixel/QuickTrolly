@@ -8,8 +8,12 @@ import razorpay
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Initialize Razorpay
-razorpay_client = razorpay.Client(auth=(Config.RAZORPAY_KEY_ID, Config.RAZORPAY_KEY_SECRET))
+# Initialize Razorpay with error handling
+try:
+    razorpay_client = razorpay.Client(auth=(Config.RAZORPAY_KEY_ID, Config.RAZORPAY_KEY_SECRET))
+except Exception as e:
+    print(f"Warning: Could not initialize Razorpay: {e}")
+    razorpay_client = None
 
 # --- Decorators ---
 def login_required(f):

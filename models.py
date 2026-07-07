@@ -2,7 +2,6 @@ import sqlite3
 import json
 import os
 import random
-import string
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import Config
 from datetime import datetime
@@ -72,7 +71,6 @@ class Database:
         self.conn.commit()
 
     def _migrate_db(self):
-        # Gracefully handle updates to existing database files missing original_price
         try:
             self.cursor.execute("ALTER TABLE products ADD COLUMN original_price REAL DEFAULT 0.0")
             self.conn.commit()

@@ -76,7 +76,6 @@ def logout():
 def scanner():
     return render_template('scanner.html')
 
-# --- Mobile Full-Page Navigation Menu Portal Route ---
 @app.route('/menu')
 @login_required
 def menu():
@@ -339,4 +338,6 @@ def admin_api_products():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    debug_mode = os.environ.get('FLASK_DEBUG', '0') == '1'
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)

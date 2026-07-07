@@ -42,7 +42,7 @@
         html, body { width: 100%; min-height: 100vh; background-color: var(--canvas-white); color: var(--text-main); font-size: 13px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
         a { text-decoration: none; color: inherit; }
 
-        /* Left Fixed Navigation Sidebar Layer (Desktop View Mode Default) */
+        /* Left Fixed Navigation Sidebar Layer */
         .market-header {
             position: fixed;
             top: 0; bottom: 0; left: 0;
@@ -57,7 +57,6 @@
             border-right: 1px solid var(--border-flat);
         }
         
-        /* Hide sidebar on auth pages by default */
         .auth-page .market-header {
             display: none;
         }
@@ -98,29 +97,22 @@
         .drawer-link { display: flex; align-items: center; gap: 10px; padding: 9px 14px; color: var(--text-muted); font-weight: 600; font-size: 13px; border-radius: var(--radius-pill); transition: all 0.1s ease; }
         .drawer-link:hover, .drawer-link.active { background: var(--supermarket-green-light); color: var(--supermarket-green); }
 
-        /* Viewport Frame Context Adjustment for Left Nav Layout */
+        /* Viewport Frame Adjustment */
         .app-view-wrapper { 
             padding-left: var(--sidebar-width); 
             min-height: 100vh; 
-            background: var(--canvas-white); 
+            width: 100%;
         }
         
-        /* Center auth pages without sidebar padding */
         .auth-page .app-view-wrapper {
-            padding-left: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            padding-left: 0 !important;
         }
         
-        .app-main-viewport { width: 100%; padding: 40px; max-width: 1200px; margin: 0 auto; }
-        
-        /* Center auth page content */
-        .auth-page .app-main-viewport {
-            padding: 20px;
-            max-width: 100%;
-            margin: 0;
+        .app-main-viewport { 
+            width: 100%; 
+            padding: 40px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
         }
 
         .btn { font-weight: 600; border-radius: var(--radius-pill) !important; font-size: 13px; padding: 8px 20px; }
@@ -130,7 +122,6 @@
         /* Fixed Mobile Tab Controller Bar Setup */
         .mobile-terminal-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; height: var(--mobile-nav-height); background: var(--canvas-white); border-top: 1px solid var(--border-flat); z-index: 1010; justify-content: space-around; align-items: center; }
         
-        /* Hide mobile nav on auth pages */
         .auth-page .mobile-terminal-bar {
             display: none !important;
         }
@@ -140,34 +131,12 @@
         
         .trolley-floating-badge { position: absolute; top: 4px; right: 28%; background: var(--alert-red); color: #fff; font-size: 9px; font-weight: 800; min-width: 14px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid #fff; }
 
-        /* Screen Media Breakpoints Layout Realignment */
         @media (max-width: 991px) {
             .market-header { display: none; }
             .mobile-terminal-bar { display: flex; }
-            /* On mobile, auth pages should still show mobile nav if logged in */
-            .auth-page .mobile-terminal-bar {
-                display: none !important;
-            }
-            .app-view-wrapper { padding-left: 0; padding-bottom: var(--mobile-nav-height); }
-            .auth-page .app-view-wrapper {
-                padding-left: 0;
-                padding-bottom: 0;
-            }
+            .app-view-wrapper { padding-left: 0 !important; padding-bottom: var(--mobile-nav-height); }
+            .auth-page .app-view-wrapper { padding-bottom: 0; }
             .app-main-viewport { padding: 24px 16px; }
-        }
-        
-        /* Override for auth pages on mobile to center content */
-        @media (max-width: 991px) {
-            .auth-page .app-view-wrapper {
-                padding-bottom: 0;
-                min-height: 100vh;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .auth-page .app-main-viewport {
-                padding: 20px 16px;
-            }
         }
     </style>
     {% block styles %}{% endblock %}
@@ -262,13 +231,11 @@
         
         var currentPath = window.location.pathname;
         
-        // Match path mapping triggers to sync sidebar indicators
         document.querySelectorAll('[data-nav-link]').forEach(function(link) {
             var href = link.getAttribute('href');
             if (href && currentPath === href) link.classList.add('active');
         });
 
-        // Sync active status for mobile navigation bar items
         document.querySelectorAll('[data-mobile-link]').forEach(function(btn) {
             var href = btn.getAttribute('href');
             if (href && currentPath === href) btn.classList.add('active');

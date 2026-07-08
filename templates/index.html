@@ -19,11 +19,27 @@
         position: relative;
         border: 1px solid var(--supermarket-green-border);
         margin-bottom: 24px;
+        gap: 24px;
     }
 
     .banner-text-side {
-        max-width: 75%;
+        max-width: 100%; /* Default to full width on mobile */
         z-index: 2;
+    }
+
+    /* Hidden by default on mobile devices */
+    .banner-image-side {
+        display: none; 
+        z-index: 2;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .banner-image-side img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 12px;
+        object-fit: contain;
     }
 
     .app-badge-pill {
@@ -174,12 +190,17 @@
     .bottom-cta { padding: 40px 0; text-align: center; }
     .bottom-cta-title { font-size: 22px; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em; margin-bottom: 14px; }
 
+    /* Layout rules depending on screen sizes */
     @media (max-width: 768px) {
         .app-promo-banner { padding: 24px 20px; }
-        .banner-text-side { max-width: 100%; }
         .hero-headline { font-size: 24px; }
         .features-grid, .steps-grid { grid-template-columns: 1fr; gap: 12px; }
         .feature-card, .step-card { padding: 16px; }
+    }
+
+    @media (min-width: 769px) {
+        .banner-text-side { max-width: 60%; }
+        .banner-image-side { display: flex; max-width: 35%; } /* Bring back image only on desktop viewports */
     }
 </style>
 {% endblock %}
@@ -226,6 +247,13 @@
                 {% endif %}
             </div>
         </div>
+        
+        <div class="banner-image-side">
+            <a href="https://ibb.co/ddKnvzy" target="_blank">
+                <img src="https://i.ibb.co/t7Cy6W5/image.png" alt="Instant Engine App Showcase" border="0">
+            </a>
+        </div>
+        
         <div class="banner-graphic-accent"></div>
     </div>
 </section>

@@ -11,25 +11,23 @@
     .app-promo-banner {
         background: linear-gradient(135deg, #F2F9F3 0%, #E3F2E5 100%);
         border-radius: 20px;
-        padding: 20px 40px; /* Reduced top/bottom padding to compress vertical gap */
+        padding: 20px 40px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         overflow: hidden;
         position: relative;
         border: 1px solid var(--supermarket-green-border);
-        margin-bottom: 16px; /* Reduced space below the hero banner */
+        margin-bottom: 16px;
         gap: 24px;
     }
 
     .banner-text-side {
-        max-width: 100%; /* Default to full width on mobile */
+        max-width: 100%;
         z-index: 2;
     }
 
-    /* Hidden by default on mobile devices */
     .banner-image-side {
-        display: none; 
         z-index: 2;
         justify-content: center;
         align-items: center;
@@ -37,8 +35,23 @@
 
     .banner-image-side img {
         max-width: 100%;
-        max-height: 180px; /* Limits the image height to keep the container compact */
+        max-height: 180px;
         width: auto;
+        height: auto;
+        border-radius: 12px;
+        object-fit: contain;
+    }
+
+    /* New bottom layout adjustments for the mobile image insertion */
+    .cta-image-wrapper {
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cta-image-wrapper img {
+        max-width: 85%;
         height: auto;
         border-radius: 12px;
         object-fit: contain;
@@ -54,7 +67,7 @@
         font-weight: 700;
         padding: 5px 12px;
         border-radius: var(--radius-pill);
-        margin-bottom: 10px; /* Reduced from 14px */
+        margin-bottom: 10px;
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
@@ -65,7 +78,7 @@
         letter-spacing: -0.03em;
         line-height: 1.2;
         color: var(--text-main);
-        margin-bottom: 10px; /* Reduced from 12px */
+        margin-bottom: 10px;
     }
 
     .hero-headline span.highlight {
@@ -79,7 +92,7 @@
         font-size: 13.5px;
         color: var(--text-muted);
         line-height: 1.5;
-        margin-bottom: 18px; /* Reduced from 24px */
+        margin-bottom: 18px;
         max-width: 580px;
     }
 
@@ -130,14 +143,14 @@
         position: absolute;
         right: -20px;
         top: -20px;
-        width: 140px; /* Slightly reduced size */
+        width: 140px;
         height: 140px;
         background: radial-gradient(circle, rgba(12, 131, 31, 0.12) 0%, transparent 70%);
         border-radius: 50%;
     }
 
     .features-section, .steps-section {
-        padding: 12px 0 20px 0; /* Tighter padding for standard sections */
+        padding: 12px 0 20px 0;
         width: 100%;
     }
 
@@ -192,17 +205,23 @@
     .bottom-cta { padding: 40px 0; text-align: center; }
     .bottom-cta-title { font-size: 22px; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em; margin-bottom: 14px; }
 
-    /* Layout rules depending on screen sizes */
+    /* Responsive Visibility Utilities */
+    .desktop-only { display: none !important; }
+    .mobile-only { display: block !important; }
+
     @media (max-width: 768px) {
-        .app-promo-banner { padding: 16px 20px; } /* Slimmer padding on mobile too */
+        .app-promo-banner { padding: 16px 20px; }
         .hero-headline { font-size: 24px; }
         .features-grid, .steps-grid { grid-template-columns: 1fr; gap: 12px; }
         .feature-card, .step-card { padding: 16px; }
+        .mobile-only { display: block !important; }
+        .mobile-only-flex { display: flex !important; }
     }
 
     @media (min-width: 769px) {
         .banner-text-side { max-width: 60%; }
-        .banner-image-side { display: flex; max-width: 35%; } 
+        .desktop-only { display: flex !important; max-width: 35%; }
+        .mobile-only, .mobile-only-flex { display: none !important; }
     }
 </style>
 {% endblock %}
@@ -250,7 +269,7 @@
             </div>
         </div>
         
-        <div class="banner-image-side">
+        <div class="banner-image-side desktop-only">
             <a href="https://ibb.co/ddKnvzy" target="_blank">
                 <img src="https://i.ibb.co/t7Cy6W5/image.png" alt="Instant Engine App Showcase" border="0">
             </a>
@@ -342,6 +361,12 @@
     {% else %}
         <a href="{{ url_for('admin_dashboard') }}" class="btn-app-solid">Go to Dashboard</a>
     {% endif %}
+
+    <div class="cta-image-wrapper mobile-only-flex" style="display: none;">
+        <a href="https://ibb.co/ddKnvzy" target="_blank">
+            <img src="https://i.ibb.co/t7Cy6W5/image.png" alt="Instant Engine App Showcase" border="0">
+        </a>
+    </div>
 </section>
 
 <script>

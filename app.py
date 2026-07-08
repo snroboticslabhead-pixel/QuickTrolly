@@ -218,11 +218,18 @@ def admin_dashboard():
     total_prod, total_ord = db.get_stats()
     total_users = db.get_user_count()
     recent_products = db.get_recent_products(5)
+    
+    # Process financial data values
+    total_revenue, daily_revenue, monthly_revenue = db.get_revenue_stats()
+    
     return render_template('admin/dashboard.html',
                            total_prod=total_prod,
                            total_ord=total_ord,
                            total_users=total_users,
-                           recent_products=recent_products)
+                           recent_products=recent_products,
+                           total_revenue=total_revenue,
+                           daily_revenue=daily_revenue,
+                           monthly_revenue=monthly_revenue)
 
 @app.route('/admin/products')
 @admin_required

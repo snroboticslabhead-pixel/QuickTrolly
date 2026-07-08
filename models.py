@@ -390,15 +390,18 @@ class Database:
         return products
 
     def get_revenue_stats(self):
-        # 1. Total Lifetime Settled Revenue
-        self.cursor.execute("SELECT SUM(total) FROM orders WHERE status = 'Settled'")
+        # Changed status checking to match active orders ('Settled', 'Pending', 'Auditing')
+        active_statuses = "('Settled', 'Pending', 'Auditing')"
+        
+        # 1. Total Lifetime Revenue
+        self.cursor.execute(f"SELECT SUM(total) FROM orders WHERE status IN {active_statuses}")
         total_revenue = self.cursor.fetchone()[0] or 0.0
 
         # 2. Daily Revenue Splits (Last 10 active days)
-        self.cursor.execute('''
+        self.cursor.execute(f'''
             SELECT substr(date, 1, 10) as revenue_day, SUM(total) as gross_amount, COUNT(id) as operational_count
             FROM orders 
-            WHERE status = 'Settled'
+            WHERE status IN {active_statuses}
             GROUP BY revenue_day
             ORDER BY revenue_day DESC
             LIMIT 10
@@ -406,10 +409,10 @@ class Database:
         daily_breakdown = [dict(row) for row in self.cursor.fetchall()]
 
         # 3. Monthly Revenue Splits
-        self.cursor.execute('''
+        self.cursor.execute(f'''
             SELECT substr(date, 1, 7) as revenue_month, SUM(total) as gross_amount, COUNT(id) as operational_count
             FROM orders 
-            WHERE status = 'Settled'
+            WHERE status IN {active_statuses}
             GROUP BY revenue_month
             ORDER BY revenue_month DESC
         ''')

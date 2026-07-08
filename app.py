@@ -219,7 +219,7 @@ def admin_dashboard():
     total_users = db.get_user_count()
     recent_products = db.get_recent_products(5)
     
-    # Process financial data values
+    # Process updated financial data metrics
     total_revenue, daily_revenue, monthly_revenue = db.get_revenue_stats()
     
     return render_template('admin/dashboard.html',
